@@ -1,0 +1,203 @@
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <title>Websocket</title>
+    <!--   <script src="node_modules/plugin/justgage-1.2.2/raphael-2.1.4.min.js"></script>
+  <script src="node_modules/plugin/justgage-1.2.2/justgage.js"></script> -->
+    <script src="/jquery/raphael-2.1.4.min.js"></script>
+    <script src="/jquery/justgage.js"></script>
+    <script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
+    <!-- <script src="/water/Customizable-Liquid-Bubble-Chart-With-jQuery-Canvas/waterbubble.js"></script> -->
+    <script src="/jquery/waterbubble.js"></script>
+    <script src="/bootstrap/js/bootstrap.min.js"></script>
+    <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+    <!--   <script src="https://cdn.jsdelivr.net/npm/justgage@1.2.2/justgage.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/justgage@1.2.2/raphael-2.1.4.min.js"></script> -->
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Navbar</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Link</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Dropdown
+            </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="#">Action</a>
+                        <a class="dropdown-item" href="#">Another action</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="#">Something else here</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+                </li>
+            </ul>
+            <form class="form-inline my-2 my-lg-0">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            </form>
+        </div>
+    </nav>
+
+
+
+    <div class="container">
+
+        <!-- Columns start at 50% wide on mobile and bump up to 33.3% wide on desktop -->
+        <div class="row">
+            <div class="col-12 col-md-12">
+                <div id="chartContainer" style="height: 370px; max-width: 920px;
+            margin: 0px auto;">
+                </div>
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="col-12 col-md-12">
+                <div id="g1"></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="chartContainer" style="height: 370px; max-width: 920px; margin: 0px
+      auto;"></div>
+
+    <div id="g1"></div>
+
+
+
+    <input style="width: 800px;height: 200px" type="text" placeholder="enter
+      text here to send to server" id="eingabe" onkeypress="myFunction(event)" />
+    <button onclick="clearlog()">Clear Logs</button>
+    <div style="overflow:scroll; width: 800px; height: 550px; border: solid;
+      border-radius: 9px" id="display"></div>
+
+    <script>
+        window.onload = function() {
+            setInterval(function() {
+                updateChart()
+            }, updateInterval);
+
+        }
+        var dps = []; // dataPoints
+        var chart = new CanvasJS.Chart("chartContainer", {
+            title: {
+                text: "Dynamic Data"
+            },
+            axisY: {
+                includeZero: false
+            },
+            data: [{
+                type: "line",
+                dataPoints: dps
+            }]
+        });
+        var xVal = 0;
+        var yVal = 0;
+        var updateInterval = 1000;
+        var dataLength = 10; // number of dataPoints visible at any point
+        var updateChart = function(count, yData) {
+            count = count || 1;
+            var today = new Date();
+            var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+            var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+            var dateTime = date + ' ' + time;
+            for (var j = 0; j < count; j++) {
+                yVal = yVal + Math.round(5 + Math.random() * (-5 - 5));
+                dps.push({
+                    x: xVal,
+                    y: parseFloat(yData)
+                });
+                xVal++;
+            }
+
+            if (dps.length > dataLength) {
+                dps.shift();
+            }
+
+            chart.render();
+        };
+        var g1;
+
+        var g1 = new JustGage({
+            id: "g1",
+            value: getRandomInt(0, 100),
+            min: 0,
+            max: 100,
+            title: "Big Fella",
+            label: "pounds"
+        });
+        var sock
+        sock = new WebSocket('wss://' + window.location.hostname); //replace this address with the one the node.js server prints out. keep port 3000
+        var display = document.getElementById("display");
+
+        sock.onopen = function(event) {
+
+            setTimeout(function() {
+                sock.send('connection succeeded');
+            }, 1000);
+            display.innerHTML += "connection succeeded <br />";
+        };
+        sock.onmessage = function(event) {
+            console.log(event.data); //show received from server data in console of browser 
+            var data = JSON.parse(event.data);
+            display.innerHTML += data.name + " : " + data.message + "<br />"; //add incoming message from server to the log screen previous string + new string(message) 
+
+            // g1.refresh(data.temp);
+            // updateChart(1,data.temp);
+
+
+        }
+        sock.onclose = function(e) {
+            console.log('Socket is closed. Reconnect will be attempted in 1 second.', e.reason);
+            setTimeout(function() {
+                connect();
+            }, 1000);
+        };
+
+        function myFunction(event) {
+
+            if (sock.readyState !== WebSocket.CLOSED) {
+                if (event.keyCode == 13) { //when enter is pressed...
+                    var text = document.getElementById('eingabe').value; //assign value of the entered string to te text variable
+                    if (text != "") { //if text is not an empty string
+                        sock.send(text); //send string to server
+                        display.innerHTML += "<strong>Me: </strong>" + text + "<br />"; //display input text in div (client side)
+                        document.getElementById('eingabe').value = ""; //and clear the input field
+                    } else {
+                        console.log("empty string not sent")
+                    }
+                }
+            } else {
+                connect();
+            }
+        }
+
+        function clearlog() {
+            display.innerHTML = "";
+        }
+
+        function connect() {
+            sock = new WebSocket('wss://' + window.location.hostname);
+
+        }
+    </script>
+</body>
+
+</html>
