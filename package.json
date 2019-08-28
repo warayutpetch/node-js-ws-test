@@ -16,6 +16,13 @@
   "author": "",
   "license": "ISC",
   "engines": {
+<<<<<<< HEAD
     "node": "10.3.0"
+=======
+    "node": "10.16.3"
+  },
+  "scripts": {
+    "start": "node websocket_example.js"
+>>>>>>> 915f24938c5e0d20cf0439a4ee778074f0f4981d
   }
 }
