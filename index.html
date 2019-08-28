@@ -37,8 +37,8 @@
             display.innerHTML += "connection succeeded <br />";
         };
         sock.onmessage = function(event) {
-            // console.log(event.data); //show received from server data in console of browser 
-            var data = JSON.parse(event.data);
+            console.log(event); //show received from server data in console of browser 
+            var data = JSON.parse(event);
             display.innerHTML += data.name + " : " + data.message + "<br />"; //add incoming message from server to the log screen previous string + new string(message) 
 
             // g1.refresh(data.temp);

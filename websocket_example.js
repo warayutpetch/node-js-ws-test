@@ -72,8 +72,8 @@ s.on('connection', function(ws, req) {
 
     setInterval(() => {
         s.clients.forEach((client) => {
-
-            client.send(JSON.stringify({ 'name': 'ping', 'message': new Date().toTimeString() }));
+            var obj = JSON.stringify({ 'name': 'ping', 'message': new Date().toTimeString() });
+            client.send(obj);
         });
     }, 3000);
 });
