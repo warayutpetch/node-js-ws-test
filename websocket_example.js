@@ -53,7 +53,6 @@ s.on('connection', function(ws, req) {
 
     ws.on('message', function(message) {
         var obj = JSON.stringify({ 'name': ws.id, 'message': message });
-        console.log("Received: " + process.env.PORT);
         console.log(ws.id + " : " + obj);
 
         s.clients.forEach(function(client) { //broadcast incoming message to all clients (s.clients)
@@ -73,9 +72,10 @@ s.on('connection', function(ws, req) {
 
     setInterval(() => {
         s.clients.forEach((client) => {
-            client.send(new Date().toTimeString());
+
+            client.send(JSON.stringify({ 'name': 'ping', 'message': new Date().toTimeString() }));
         });
-    }, 1000);
+    }, 3000);
 });
 server.listen(3000, function() {
 
