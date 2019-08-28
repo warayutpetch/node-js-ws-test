@@ -144,7 +144,7 @@
             label: "pounds"
         });
         var sock
-        sock = new WebSocket('wss://' + window.location.hostname); //replace this address with the one the node.js server prints out. keep port 3000
+        sock = new WebSocket('wss://13.250.47.102'); //replace this address with the one the node.js server prints out. keep port 3000
         var display = document.getElementById("display");
 
         sock.onopen = function(event) {
@@ -194,7 +194,7 @@
         }
 
         function connect() {
-            sock = new WebSocket('wss://' + window.location.hostname);
+            sock = new WebSocket('wss://13.250.47.102');
 
         }
     </script>
