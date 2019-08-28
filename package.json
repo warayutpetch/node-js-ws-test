@@ -10,16 +10,12 @@
   },
   "devDependencies": {},
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node websocket_example.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  
   "engines": {
     "node": "10.3.0"
-  },
-  "scripts": {
-    "start": "node websocket_example.js"
   }
 }
