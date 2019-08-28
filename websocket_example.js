@@ -77,7 +77,7 @@ s.on('connection', function(ws, req) {
         });
     }, 1000);
 });
-server.listen(process.env.PORT || 3000, function() {
+server.listen(3000, function() {
 
     console.log(process.env.PORT);
 });
