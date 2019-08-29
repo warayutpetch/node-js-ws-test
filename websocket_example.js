@@ -72,7 +72,7 @@ s.on('connection', function (ws, req) {
                 });
             }else{
                 s.clients.forEach(function (client) { //broadcast incoming message to all clients (s.clients)
-                    if (client != ws && client.readyState) { //except to the same client (ws) that sent this message
+                    if ( client.readyState) { //except to the same client (ws) that sent this message
                         client.send(obj);
                     }
                 });
