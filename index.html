@@ -39,8 +39,8 @@
         sock.onmessage = function(event) {
             console.log(event.data); //show received from server data in console of browser 
             if (event.data != 'ping') {
+                var data = JSON.parse(event.data);
                 if(data.name != ''){
-                    var data = JSON.parse(event.data);
                     display.innerHTML += data.name + " : " + data.message + "<br />"; //add incoming message from server to the log screen previous string + new string(message) 
                 }else{
                     for(var i =0; i< data.length ; i++){
