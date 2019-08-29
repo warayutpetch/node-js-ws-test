@@ -63,7 +63,7 @@ s.on('connection', function (ws, req) {
             console.log('message',message);
             var obj = JSON.stringify({ 'name': ws.id, 'message': message });
             console.log(ws.id + " : " + obj);
-            if (obj.message == 'list-all') {
+            if (message == 'list-all') {
                 s.clients.forEach(function (client) { //broadcast incoming message to all clients (s.clients)
                     if (client != ws && client.readyState) { //except to the same client (ws) that sent this message
                         client.send(JSON.stringify(user));
