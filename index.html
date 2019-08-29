@@ -43,12 +43,6 @@
                 display.innerHTML += data.name + " : " + data.message + "<br />"; //add incoming message from server to the log screen previous string + new string(message) 
 
             }
-
-
-            // g1.refresh(data.temp);
-            // updateChart(1,data.temp);
-
-
         }
         sock.onclose = function(e) {
             console.log('Socket is closed. Reconnect will be attempted in 1 second.', e.reason);

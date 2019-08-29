@@ -57,17 +57,17 @@ s.on('connection', function (ws, req) {
         console.log('user: ', user);
     });
 
-    s.clients.forEach(function (client) { //broadcast incoming message to all clients (s.clients)
-        if (client != ws && client.readyState) { //except to the same client (ws) that sent this message
-            client.send(user);
-        }
-    });
+
     ws.on('message', function (message) {
         if (message != 'ping') {
             var obj = JSON.stringify({ 'name': ws.id, 'message': message });
             console.log(ws.id + " : " + obj);
-            if (obj.message == 'list -all') {
-
+            if (obj.message == 'list-all') {
+                s.clients.forEach(function (client) { //broadcast incoming message to all clients (s.clients)
+                    if (client != ws && client.readyState) { //except to the same client (ws) that sent this message
+                        client.send(user);
+                    }
+                });
             }
             s.clients.forEach(function (client) { //broadcast incoming message to all clients (s.clients)
                 if (client != ws && client.readyState) { //except to the same client (ws) that sent this message
@@ -83,6 +83,7 @@ s.on('connection', function (ws, req) {
     });
     //ws.send("new client connected");
     console.log("new client connected");
+
 
     setInterval(() => {
         s.clients.forEach((client) => {
