@@ -107,7 +107,17 @@ s.on('connection', function (ws, req) {
 
     });
     ws.on('close', function () {
-        console.log("lost one client");
+
+        s.clients.forEach(function each(client) {
+    
+            user.push({
+                'user_id': client.id,
+                'status': 'ready',
+                'time' :  getDateTime()
+            });
+            console.log('Client.ID: ', client.id);
+            console.log('user: ', user);
+        });
     });
     //ws.send("new client connected");
     console.log("new client connected");
