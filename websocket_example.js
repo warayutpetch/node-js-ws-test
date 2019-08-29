@@ -42,6 +42,31 @@ s.getUniqueID = function () {
     }
     return s4() + s4() + '-' + s4();
 };
+
+function getDateTime() {
+
+    var date = new Date();
+
+    var hour = date.getHours();
+    hour = (hour < 10 ? "0" : "") + hour;
+
+    var min  = date.getMinutes();
+    min = (min < 10 ? "0" : "") + min;
+
+    var sec  = date.getSeconds();
+    sec = (sec < 10 ? "0" : "") + sec;
+
+    var year = date.getFullYear();
+
+    var month = date.getMonth() + 1;
+    month = (month < 10 ? "0" : "") + month;
+
+    var day  = date.getDate();
+    day = (day < 10 ? "0" : "") + day;
+
+    return year + ":" + month + ":" + day + ":" + hour + ":" + min + ":" + sec;
+
+}
 //app.ws('/echo', function(ws, req) {
 s.on('connection', function (ws, req) {
     ws.id = s.getUniqueID();
@@ -51,8 +76,8 @@ s.on('connection', function (ws, req) {
         user.push({
             'user_id': client.id,
             'status': 'ready',
-        }
-        );
+            'time' :  getDateTime();
+        });
         console.log('Client.ID: ', client.id);
         console.log('user: ', user);
     });
@@ -64,7 +89,6 @@ s.on('connection', function (ws, req) {
             var obj = JSON.stringify({ 'name': ws.id, 'message': message });
             console.log(ws.id + " : " + obj);
             if (message == 'list-all') {
-                console.log('sssssssssssssssssss');
                 s.clients.forEach(function (client) { //broadcast incoming message to all clients (s.clients)
                     if (client.readyState) { //except to the same client (ws) that sent this message
                         client.send(JSON.stringify(user));
