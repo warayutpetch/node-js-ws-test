@@ -47,14 +47,14 @@ s.on('connection', function (ws, req) {
     ws.id = s.getUniqueID();
     var user = [];
     s.clients.forEach(function each(client) {
-        var data = [{
+    
+        user.push({
             'user_id': client.id,
             'status': 'ready',
         }
-        ]
-        user.push(data);
-        console.log('Client.ID: ' , client.id);
-        console.log('user: ' , user);
+        );
+        console.log('Client.ID: ', client.id);
+        console.log('user: ', user);
     });
 
 
