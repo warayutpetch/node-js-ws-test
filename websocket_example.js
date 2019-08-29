@@ -48,7 +48,6 @@ s.on('connection', function (ws, req) {
     var user = [];
     s.clients.forEach(function each(client) {
 
-        user = [];
         user.push(client.id);
         console.log('Client.ID: ' + client.id);
         console.log('user: ' + user);
