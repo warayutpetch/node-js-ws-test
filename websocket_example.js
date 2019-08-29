@@ -72,19 +72,9 @@ s.on('connection', function (ws, req) {
     ws.id = s.getUniqueID();
     // ws.id = generateAnUniqueIdFunction();
     connections[ws.id] = ws;
-
+    console.log('connections: ', connections);
     var user = [];
-    s.clients.forEach(function each(client) {
-    
-        user.push({
-            'user_id': client.id,
-            'status': 'ready',
-            'time' :  getDateTime()
-        });
-        console.log('Client.ID: ', client.id);
-        console.log('connections: ', connections);
 
-    });
 
 
     ws.on('message', function (message) {
@@ -124,8 +114,8 @@ s.on('connection', function (ws, req) {
             console.log('user: ', user);
         });
 
-        delete connections[socket.id];
-        delete socket.id;
+        delete connections[ws.id];
+        delete ws.id;
     });
     //ws.send("new client connected");
     console.log("new client connected");
