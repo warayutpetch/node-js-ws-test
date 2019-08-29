@@ -88,8 +88,8 @@ s.on('connection', function (ws, req) {
 
     setInterval(() => {
         s.clients.forEach((client) => {
-            var obj = user;
-            client.send(obj);
+            // var obj = user;
+            client.send(JSON.stringify(user));
         });
     }, 3000);
 });
