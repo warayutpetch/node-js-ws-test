@@ -53,8 +53,8 @@ s.on('connection', function (ws, req) {
         }
         ]
         user.push(data);
-        console.log('Client.ID: ' + client.id);
-        console.log('user: ' + user);
+        console.log('Client.ID: ' , client.id);
+        console.log('user: ' , user);
     });
 
 
