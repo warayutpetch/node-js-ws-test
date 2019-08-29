@@ -25,8 +25,8 @@ require('dns').lookup(require('os').hostname(), function (err, add, fam) {
 /**********************websocket setup**************************************************************************************/
 //var expressWs = require('express-ws')(app,server);
 const WebSocket = require('ws');
-const s = new WebSocket.Server({ server });
-
+const s = new WebSocket.Server({ server ,clientTracking: false});
+var connections = {};
 //when browser sends get request, send html file to browser
 // viewed at http://localhost:30000
 app.get('/', function (req, res) {
@@ -70,6 +70,9 @@ function getDateTime() {
 //app.ws('/echo', function(ws, req) {
 s.on('connection', function (ws, req) {
     ws.id = s.getUniqueID();
+    ws.id = generateAnUniqueIdFunction();
+    connections[ws.id] = ws;
+
     var user = [];
     s.clients.forEach(function each(client) {
     
@@ -79,7 +82,8 @@ s.on('connection', function (ws, req) {
             'time' :  getDateTime()
         });
         console.log('Client.ID: ', client.id);
-        console.log('user: ', user);
+        console.log('connections: ', connections);
+
     });
 
 
@@ -107,6 +111,7 @@ s.on('connection', function (ws, req) {
 
     });
     ws.on('close', function () {
+        console.log("lost one client");
 
         s.clients.forEach(function each(client) {
     
@@ -118,6 +123,9 @@ s.on('connection', function (ws, req) {
             console.log('Client.ID: ', client.id);
             console.log('user: ', user);
         });
+
+        delete connections[socket.id];
+        delete socket.id;
     });
     //ws.send("new client connected");
     console.log("new client connected");
