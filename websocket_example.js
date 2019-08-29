@@ -46,10 +46,10 @@ s.getUniqueID = function () {
 s.on('connection', function (ws, req) {
     ws.id = s.getUniqueID();
     var user = [];
-
     s.clients.forEach(function each(client) {
+
         user = [];
-        user.join(client.id);
+        user.push(client.id);
         console.log('Client.ID: ' + client.id);
         console.log('user: ' + user);
     });
