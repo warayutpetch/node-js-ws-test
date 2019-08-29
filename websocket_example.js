@@ -76,7 +76,7 @@ s.on('connection', function (ws, req) {
         user.push({
             'user_id': client.id,
             'status': 'ready',
-            'time' :  getDateTime();
+            'time' :  getDateTime()
         });
         console.log('Client.ID: ', client.id);
         console.log('user: ', user);
