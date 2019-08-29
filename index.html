@@ -43,10 +43,11 @@
                 if(data.name != ''){
                     display.innerHTML += data.name + " : " + data.message + "<br />"; //add incoming message from server to the log screen previous string + new string(message) 
                 }else{
-                    for(var i =0; i< data.length ; i++){
-                    display.innerHTML += data[i].user_id + " : " + data[i].ready + "<br />"; //add incoming message from server to the log screen previous string + new string(message) 
+                    console.log(data);
+                    // for(var i =0; i< data.length ; i++){
+                    // display.innerHTML += data[i].user_id + " : " + data[i].ready + "<br />"; //add incoming message from server to the log screen previous string + new string(message) 
 
-                    }
+                    // }
                 }
 
             }
