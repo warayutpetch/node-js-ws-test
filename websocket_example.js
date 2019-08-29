@@ -88,7 +88,7 @@ s.on('connection', function (ws, req) {
 
     setInterval(() => {
         s.clients.forEach((client) => {
-            var obj = 'ping';
+            var obj = user;
             client.send(obj);
         });
     }, 3000);
