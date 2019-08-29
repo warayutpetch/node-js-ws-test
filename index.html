@@ -37,11 +37,12 @@
             display.innerHTML += "connection succeeded <br />";
         };
         sock.onmessage = function(event) {
-            console.log(event); //show received from server data in console of browser 
+            // console.log(event); //show received from server data in console of browser 
             var data = JSON.parse(event.data);
             // if (event.data != 'ping') {
               
                 if(data.name != ''){
+                    console.log('data.name',data.name);
                     display.innerHTML += data.name + " : " + data.message + "<br />"; //add incoming message from server to the log screen previous string + new string(message) 
                 }else{
                     console.log('data',data);
