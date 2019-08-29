@@ -51,6 +51,7 @@ s.on('connection', function (ws, req) {
         user = [];
         user.join(client.id);
         console.log('Client.ID: ' + client.id);
+        console.log('user: ' + user);
     });
 
 
