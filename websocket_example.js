@@ -70,7 +70,7 @@ function getDateTime() {
 //app.ws('/echo', function(ws, req) {
 s.on('connection', function (ws, req) {
     ws.id = s.getUniqueID();
-    ws.id = generateAnUniqueIdFunction();
+    // ws.id = generateAnUniqueIdFunction();
     connections[ws.id] = ws;
 
     var user = [];
