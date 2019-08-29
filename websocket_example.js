@@ -60,6 +60,7 @@ s.on('connection', function (ws, req) {
 
     ws.on('message', function (message) {
         if (message != 'ping') {
+            console.log('message',message);
             var obj = JSON.stringify({ 'name': ws.id, 'message': message });
             console.log(ws.id + " : " + obj);
             if (obj.message == 'list-all') {
