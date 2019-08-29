@@ -57,7 +57,11 @@ s.on('connection', function (ws, req) {
         console.log('user: ', user);
     });
 
-
+    s.clients.forEach(function (client) { //broadcast incoming message to all clients (s.clients)
+        if (client != ws && client.readyState) { //except to the same client (ws) that sent this message
+            client.send(user);
+        }
+    });
     ws.on('message', function (message) {
         if (message != 'ping') {
             var obj = JSON.stringify({ 'name': ws.id, 'message': message });
