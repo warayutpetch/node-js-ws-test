@@ -18,7 +18,7 @@ app.use('/water', express.static(__dirname + '/node_modules/plugin/Customizable-
 
 //***************this snippet gets the local ip of the node.js server. copy this ip to the client side code and add ':3000' *****
 //****************exmpl. 192.168.56.1---> var sock =new WebSocket("ws://192.168.56.1:3000");*************************************
-require('dns').lookup(require('os').hostname(), function(err, add, fam) {
+require('dns').lookup(require('os').hostname(), function (err, add, fam) {
     console.log('addr: ' + add);
 })
 
@@ -29,34 +29,39 @@ const s = new WebSocket.Server({ server });
 
 //when browser sends get request, send html file to browser
 // viewed at http://localhost:30000
-app.get('/', function(req, res) {
+app.get('/', function (req, res) {
     res.sendFile(path.join(__dirname + '/index.html'));
 });
 
 
 //*************************************************************************************************************************
 //***************************ws chat server********************************************************************************
-s.getUniqueID = function() {
+s.getUniqueID = function () {
     function s4() {
         return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
     }
     return s4() + s4() + '-' + s4();
 };
 //app.ws('/echo', function(ws, req) {
-s.on('connection', function(ws, req) {
+s.on('connection', function (ws, req) {
     ws.id = s.getUniqueID();
+    var user = [];
 
     s.clients.forEach(function each(client) {
+        user = [];
+        user.join(client.id);
         console.log('Client.ID: ' + client.id);
     });
 
 
-    ws.on('message', function(message) {
+    ws.on('message', function (message) {
         if (message != 'ping') {
             var obj = JSON.stringify({ 'name': ws.id, 'message': message });
             console.log(ws.id + " : " + obj);
+            if (obj.message == 'list -all') {
 
-            s.clients.forEach(function(client) { //broadcast incoming message to all clients (s.clients)
+            }
+            s.clients.forEach(function (client) { //broadcast incoming message to all clients (s.clients)
                 if (client != ws && client.readyState) { //except to the same client (ws) that sent this message
                     client.send(obj);
                 }
@@ -65,7 +70,7 @@ s.on('connection', function(ws, req) {
 
 
     });
-    ws.on('close', function() {
+    ws.on('close', function () {
         console.log("lost one client");
     });
     //ws.send("new client connected");
@@ -78,7 +83,7 @@ s.on('connection', function(ws, req) {
         });
     }, 3000);
 });
-server.listen(3000, function() {
+server.listen(3000, function () {
 
     console.log(process.env.PORT);
 });
