@@ -38,8 +38,9 @@
         };
         sock.onmessage = function(event) {
             console.log(event.data); //show received from server data in console of browser 
-            if (event.data != 'ping') {
-                var data = JSON.parse(event.data);
+            var data = JSON.parse(event.data);
+            // if (event.data != 'ping') {
+              
                 if(data.name != ''){
                     display.innerHTML += data.name + " : " + data.message + "<br />"; //add incoming message from server to the log screen previous string + new string(message) 
                 }else{
@@ -50,7 +51,7 @@
                     // }
                 }
 
-            }
+            // }
 
         }
         sock.onclose = function(e) {
