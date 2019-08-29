@@ -39,7 +39,7 @@
         sock.onmessage = function(event) {
             console.log(event.data); //show received from server data in console of browser 
             var data = JSON.parse(event.data);
-            if (data != 'ping') {
+            // if (data != 'ping') {
               
                 if(data.name != undefined){
                     console.log('data.name',data.name);
@@ -52,7 +52,7 @@
                     // }
                 }
 
-            }
+            // }
 
         }
         sock.onclose = function(e) {
