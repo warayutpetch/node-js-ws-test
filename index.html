@@ -39,10 +39,18 @@
         sock.onmessage = function(event) {
             console.log(event.data); //show received from server data in console of browser 
             if (event.data != 'ping') {
-                var data = JSON.parse(event.data);
-                display.innerHTML += data.name + " : " + data.message + "<br />"; //add incoming message from server to the log screen previous string + new string(message) 
+                if(data.name != ''){
+                    var data = JSON.parse(event.data);
+                    display.innerHTML += data.name + " : " + data.message + "<br />"; //add incoming message from server to the log screen previous string + new string(message) 
+                }else{
+                    for(var i =0; i< data.length ; i++){
+                    display.innerHTML += data[i].user_id + " : " + data[i].ready + "<br />"; //add incoming message from server to the log screen previous string + new string(message) 
+
+                    }
+                }
 
             }
+
         }
         sock.onclose = function(e) {
             console.log('Socket is closed. Reconnect will be attempted in 1 second.', e.reason);
