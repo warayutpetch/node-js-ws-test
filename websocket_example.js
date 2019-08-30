@@ -79,7 +79,7 @@ s.on('connection', function (ws, req) {
     ws.id = s.getUniqueID();
     // ws.id = generateAnUniqueIdFunction();
     connections[ws.id] = ws;
-    console.log('connections: ', connections.size);
+    // console.log('connections: ', connections);
     var user = [];
 
 
@@ -95,6 +95,11 @@ s.on('connection', function (ws, req) {
                 //         client.send(JSON.stringify(user));
                 //     }
                 // });
+
+                for(var i in s.clients) {
+                    console.log(s.clients[i]);
+                    s.clients[i].send(JSON.stringify(user));
+                  }
             }else{
                 // ws.clients.forEach(function (client) { //broadcast incoming message to all clients (s.clients)
                 //     if (client != ws && client.readyState) { //except to the same client (ws) that sent this message
