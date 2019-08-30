@@ -40,7 +40,7 @@ border-radius: 9px" id="online"></div>
             display.innerHTML += "connection succeeded <br />";
         };
         sock.onmessage = function(event) {
-            console.log(event); //show received from server data in console of browser 
+            // console.log(event); //show received from server data in console of browser 
             if (event.data != 'ping') {
             var data = JSON.parse(event.data);
             console.log(data);
