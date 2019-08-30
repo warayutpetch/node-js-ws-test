@@ -45,12 +45,13 @@ border-radius: 9px" id="online"></div>
             var data = JSON.parse(event.data);
             console.log(data);
                 if(data.name != undefined){
-                    console.log('data.name',data.name);
+                    // console.log('data.name',data.name);
                     display.innerHTML += data.name + " : " + data.message + "<br />"; //add incoming message from server to the log screen previous string + new string(message) 
                 }else{
-                    console.log('data',data);
+                    clearlog();
+                    // console.log('data',data);
                     for(var i =0; i< data.length ; i++){
-                        clearlog();
+                    
                         online.innerHTML += data[i].user_id + " : " + data[i].status + "<br />"; //add incoming message from server to the log screen previous string + new string(message) 
 
                     }
