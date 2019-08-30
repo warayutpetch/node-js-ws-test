@@ -71,7 +71,7 @@ function getDateTime() {
 s.on('connection', function (ws, req) {
     ws.id = s.getUniqueID();
     user[ws.id].push({
-        'user_id': client.id,
+        'user_id': ws.id,
         'status': 'ready',
         'time': getDateTime()
     });
