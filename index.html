@@ -50,6 +50,7 @@ border-radius: 9px" id="online"></div>
                 }else{
                     console.log('data',data);
                     for(var i =0; i< data.length ; i++){
+                        clearlog();
                         online.innerHTML += data[i].user_id + " : " + data[i].status + "<br />"; //add incoming message from server to the log screen previous string + new string(message) 
 
                     }
@@ -85,6 +86,7 @@ border-radius: 9px" id="online"></div>
 
         function clearlog() {
             display.innerHTML = "";
+            online.innerHTML = "";
         }
 
         function connect() {

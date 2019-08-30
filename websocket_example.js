@@ -73,9 +73,9 @@ s.boardCastCurrentUser = function () {
 
     for (var key in user) {
         current_user.push(user[key]);
-      
+
     }
-    console.log('current_user',current_user);
+    console.log('current_user', current_user);
     s.clients.forEach(function (client) { //broadcast incoming message to all clients (s.clients)
         if (client.readyState) { //except to the same client (ws) that sent this message
 
@@ -93,7 +93,7 @@ s.on('connection', function (ws, req) {
         'status': 'ready',
         'time': getDateTime()
     };
-
+    s.boardCastCurrentUser();
     console.log(user);
 
     ws.on('message', function (message) {
@@ -117,7 +117,8 @@ s.on('connection', function (ws, req) {
     });
     ws.on('close', function () {
 
-        delete user[ws.id]
+        delete user[ws.id];
+        s.boardCastCurrentUser();
         console.log('user', user);
     });
     //ws.send("new client connected");
