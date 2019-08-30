@@ -97,11 +97,8 @@ s.on('connection', function (ws, req) {
                 //         client.send(JSON.stringify(user));
                 //     }
                 // });
-
-                for(var i in s.clients) {
-                    console.log(s.clients[i]);
-                    s.clients[i].send(JSON.stringify(user));
-                  }
+                s.broadcast(JSON.stringify(user)); 
+        
             }else{
                 // ws.clients.forEach(function (client) { //broadcast incoming message to all clients (s.clients)
                 //     if (client != ws && client.readyState) { //except to the same client (ws) that sent this message
