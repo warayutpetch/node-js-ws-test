@@ -70,9 +70,14 @@ function getDateTime() {
 //app.ws('/echo', function(ws, req) {
 s.on('connection', function (ws, req) {
     ws.id = s.getUniqueID();
-    user[ws.id].push('sss');
+    user.push(ws.id);
+    user[ws.id].push({
+        'user_id': ws.id,
+        'status': 'ready',
+        'time': getDateTime()
+    });
 
-
+    console.log(user);
 
     ws.on('message', function (message) {
         if (message != 'ping') {
@@ -100,7 +105,7 @@ s.on('connection', function (ws, req) {
     ws.on('close', function () {
 
         delete user[ws.id]
-        console.log('user',user);
+        console.log('user', user);
     });
     //ws.send("new client connected");
     console.log("new client connected");
