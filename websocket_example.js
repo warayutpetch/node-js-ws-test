@@ -67,6 +67,24 @@ function getDateTime() {
     return year + ":" + month + ":" + day + ":" + hour + ":" + min + ":" + sec;
 
 }
+
+s.boardCastCurrentUser = function () {
+    current_user = [];
+
+    for (var key in user) {
+        current_user.push(user[key]);
+      
+    }
+    console.log('current_user',current_user);
+    s.clients.forEach(function (client) { //broadcast incoming message to all clients (s.clients)
+        if (client.readyState) { //except to the same client (ws) that sent this message
+
+
+            client.send(JSON.stringify(current_user));
+
+        }
+    });
+}
 //app.ws('/echo', function(ws, req) {
 s.on('connection', function (ws, req) {
     ws.id = s.getUniqueID();
@@ -84,21 +102,7 @@ s.on('connection', function (ws, req) {
             var obj = JSON.stringify({ 'name': ws.id, 'message': message });
             console.log(ws.id + " : " + obj);
             if (message == 'list-all') {
-                current_user = [];
-
-                for (var key in user) {
-                    current_user.push(user[key]);
-                  
-                }
-                console.log('current_user',current_user);
-                s.clients.forEach(function (client) { //broadcast incoming message to all clients (s.clients)
-                    if (client.readyState) { //except to the same client (ws) that sent this message
-
-
-                        client.send(JSON.stringify(current_user));
-
-                    }
-                });
+                s.boardCastCurrentUser();
             } else {
                 s.clients.forEach(function (client) { //broadcast incoming message to all clients (s.clients)
                     if (client != ws && client.readyState) { //except to the same client (ws) that sent this message
