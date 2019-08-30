@@ -68,23 +68,17 @@ function getDateTime() {
 
 }
 
-s.broadcast = function(data) {
-    Object.keys(connections).forEach(function(key) {
-        var connection = connections[key];
-        if (connection.connected) {
-            connection.send(data);
-            console.log('send',data);
-        }
-    });
-  };
 //app.ws('/echo', function(ws, req) {
 s.on('connection', function (ws, req) {
     ws.id = s.getUniqueID();
     // ws.id = generateAnUniqueIdFunction();
-    connections[ws.id] = ws;
+    // connections[ws.id] = ws;
     // console.log('connections: ', connections);
     var user = [];
-
+    user[ws.id].push({
+        'status': 'ready',
+        'time' :  getDateTime()
+    });
 
 
     ws.on('message', function (message) {
@@ -93,20 +87,17 @@ s.on('connection', function (ws, req) {
             var obj = JSON.stringify({ 'name': ws.id, 'message': message });
             console.log(ws.id + " : " + obj);
             if (message == 'list-all') {
-                // ws.clients.forEach(function (client) { //broadcast incoming message to all clients (s.clients)
-                //     if (client.readyState) { //except to the same client (ws) that sent this message
-                //         client.send(JSON.stringify(user));
-                //     }
-                // });
-                console.log('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',message);
-                s.broadcast(JSON.stringify(user)); 
-        
+                ws.clients.forEach(function (client) { //broadcast incoming message to all clients (s.clients)
+                    if (client.readyState) { //except to the same client (ws) that sent this message
+                        client.send(JSON.stringify(user));
+                    }
+                });        
             }else{
-                // ws.clients.forEach(function (client) { //broadcast incoming message to all clients (s.clients)
-                //     if (client != ws && client.readyState) { //except to the same client (ws) that sent this message
-                //         client.send(obj);
-                //     }
-                // });
+                ws.clients.forEach(function (client) { //broadcast incoming message to all clients (s.clients)
+                    if (client != ws && client.readyState) { //except to the same client (ws) that sent this message
+                        client.send(obj);
+                    }
+                });
             }
   
         }
@@ -114,10 +105,8 @@ s.on('connection', function (ws, req) {
 
     });
     ws.on('close', function () {
-        console.log("lost one client");
-
-        delete connections[ws.id];
-        delete ws.id;
+        delete user[ws.id];
+        console.log('user',user);
     });
     //ws.send("new client connected");
     console.log("new client connected");
