@@ -13,7 +13,7 @@ app.use('/css', express.static(__dirname + '/plugin'));
 app.use('/jquery', express.static(__dirname + '/node_modules/plugin/justgage-1.2.2/'));
 app.use('/bootstrap', express.static(__dirname + '/node_modules/plugin/bootstrap/'));
 app.use('/water', express.static(__dirname + '/node_modules/plugin/Customizable-Liquid-Bubble-Chart-With-jQuery-Canvas/'));
-var user = new Array();
+var user = [];
 //Store all JS and CSS in Scripts folder.
 
 //***************this snippet gets the local ip of the node.js server. copy this ip to the client side code and add ':3000' *****
