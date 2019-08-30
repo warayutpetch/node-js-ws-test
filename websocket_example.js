@@ -67,14 +67,14 @@ function getDateTime() {
     return year + ":" + month + ":" + day + ":" + hour + ":" + min + ":" + sec;
 
 }
-
+var user = {};
 //app.ws('/echo', function(ws, req) {
 s.on('connection', function (ws, req) {
     ws.id = s.getUniqueID();
     // ws.id = generateAnUniqueIdFunction();
     // connections[ws.id] = ws;
     // console.log('connections: ', connections);
-    var user = [];
+
     user[ws.id].push({
         'status': 'ready',
         'time' :  getDateTime()
