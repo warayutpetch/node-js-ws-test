@@ -69,9 +69,9 @@ function getDateTime() {
 }
 
 s.broadcast = function(data) {
-    for(var i in wss.clients) {
-      console.log(wss.clients[i]);
-      ws.clients[i].send(data);
+    for(var i in s.clients) {
+      console.log(s.clients[i]);
+      s.clients[i].send(data);
     }
   };
 //app.ws('/echo', function(ws, req) {
