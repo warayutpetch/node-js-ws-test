@@ -75,10 +75,10 @@ s.on('connection', function (ws, req) {
     // connections[ws.id] = ws;
     // console.log('connections: ', connections);
 
-    user[ws.id].push({
-        'status': 'ready',
-        'time' :  getDateTime()
-    });
+    // user[ws.id].push({
+    //     'status': 'ready',
+    //     'time' :  getDateTime()
+    // });
 
 
     ws.on('message', function (message) {
