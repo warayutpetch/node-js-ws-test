@@ -67,6 +67,13 @@ function getDateTime() {
     return year + ":" + month + ":" + day + ":" + hour + ":" + min + ":" + sec;
 
 }
+
+s.broadcast = function(data) {
+    for(var i in wss.clients) {
+      console.log(wss.clients[i]);
+      ws.clients[i].send(data);
+    }
+  };
 //app.ws('/echo', function(ws, req) {
 s.on('connection', function (ws, req) {
     ws.id = s.getUniqueID();
@@ -111,10 +118,7 @@ s.on('connection', function (ws, req) {
 
 
     setInterval(() => {
-        s.clients.forEach((client) => {
-            var obj = 'ping';
-            client.send(obj);
-        });
+        s.broadcast('ping'); 
     }, 3000);
 });
 server.listen(3000, function () {
