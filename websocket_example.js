@@ -73,6 +73,7 @@ s.broadcast = function(data) {
         var connection = connections[key];
         if (connection.connected) {
             connection.send(data);
+            console.log('send',data);
         }
     });
   };
@@ -97,6 +98,7 @@ s.on('connection', function (ws, req) {
                 //         client.send(JSON.stringify(user));
                 //     }
                 // });
+                console.log('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',message);
                 s.broadcast(JSON.stringify(user)); 
         
             }else{
