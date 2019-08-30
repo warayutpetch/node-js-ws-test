@@ -40,6 +40,7 @@
             console.log(event.data); //show received from server data in console of browser 
             if (event.data != 'ping') {
             var data = JSON.parse(event.data);
+            console.log(data);
                 if(data.name != undefined){
                     console.log('data.name',data.name);
                     display.innerHTML += data.name + " : " + data.message + "<br />"; //add incoming message from server to the log screen previous string + new string(message) 
