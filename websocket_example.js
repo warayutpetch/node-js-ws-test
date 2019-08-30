@@ -79,7 +79,7 @@ s.on('connection', function (ws, req) {
     ws.id = s.getUniqueID();
     // ws.id = generateAnUniqueIdFunction();
     connections[ws.id] = ws;
-    console.log('connections: ', connections.length);
+    console.log('connections: ', connections.size);
     var user = [];
 
 
