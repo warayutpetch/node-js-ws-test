@@ -70,7 +70,6 @@ function getDateTime() {
 //app.ws('/echo', function(ws, req) {
 s.on('connection', function (ws, req) {
     ws.id = s.getUniqueID();
-    user.push(ws.id);
     user[ws.id]={
         'user_id': ws.id,
         'status': 'ready',
