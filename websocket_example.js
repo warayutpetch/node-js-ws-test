@@ -70,7 +70,7 @@ function getDateTime() {
 //app.ws('/echo', function(ws, req) {
 s.on('connection', function (ws, req) {
     ws.id = s.getUniqueID();
-    user[ws.id]={
+    user[ws.id] = {
         'user_id': ws.id,
         'status': 'ready',
         'time': getDateTime()
@@ -84,15 +84,19 @@ s.on('connection', function (ws, req) {
             var obj = JSON.stringify({ 'name': ws.id, 'message': message });
             console.log(ws.id + " : " + obj);
             if (message == 'list-all') {
+                current_user = [];
 
+                for (var key in user) {
+                    current_user.push(user[key]);
+                  
+                }
+                console.log('current_user',current_user);
                 s.clients.forEach(function (client) { //broadcast incoming message to all clients (s.clients)
                     if (client.readyState) { //except to the same client (ws) that sent this message
-                        
-                        for (var key in user) {
-                            console.log('key',key);
-                        }
-                        client.send(JSON.stringify(user));
-                       
+
+
+                        client.send(JSON.stringify(current_user));
+
                     }
                 });
             } else {
