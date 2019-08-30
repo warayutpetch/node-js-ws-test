@@ -69,10 +69,12 @@ function getDateTime() {
 }
 
 s.broadcast = function(data) {
-    for(var i in s.clients) {
-      console.log(s.clients[i]);
-      s.clients[i].send(data);
-    }
+    Object.keys(connections).forEach(function(key) {
+        var connection = connections[key];
+        if (connection.connected) {
+            connection.send(data);
+        }
+    });
   };
 //app.ws('/echo', function(ws, req) {
 s.on('connection', function (ws, req) {
