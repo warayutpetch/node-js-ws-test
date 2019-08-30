@@ -31,7 +31,7 @@ border-radius: 9px" id="online"></div>
         var sock
         sock = new WebSocket('ws://' + '13.250.47.102:3000'); //replace this address with the one the node.js server prints out. keep port 3000
         var display = document.getElementById("display");
-
+        var online = document.getElementById("online");
         sock.onopen = function(event) {
 
             setTimeout(function() {
@@ -50,7 +50,7 @@ border-radius: 9px" id="online"></div>
                 }else{
                     console.log('data',data);
                     for(var i =0; i< data.length ; i++){
-                    display.innerHTML += data[i].user_id + " : " + data[i].status + "<br />"; //add incoming message from server to the log screen previous string + new string(message) 
+                        online.innerHTML += data[i].user_id + " : " + data[i].status + "<br />"; //add incoming message from server to the log screen previous string + new string(message) 
 
                     }
                 }
