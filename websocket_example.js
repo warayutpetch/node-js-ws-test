@@ -13,7 +13,7 @@ app.use('/css', express.static(__dirname + '/plugin'));
 app.use('/jquery', express.static(__dirname + '/node_modules/plugin/justgage-1.2.2/'));
 app.use('/bootstrap', express.static(__dirname + '/node_modules/plugin/bootstrap/'));
 app.use('/water', express.static(__dirname + '/node_modules/plugin/Customizable-Liquid-Bubble-Chart-With-jQuery-Canvas/'));
-
+var user = {};
 //Store all JS and CSS in Scripts folder.
 
 //***************this snippet gets the local ip of the node.js server. copy this ip to the client side code and add ':3000' *****
@@ -25,8 +25,8 @@ require('dns').lookup(require('os').hostname(), function (err, add, fam) {
 /**********************websocket setup**************************************************************************************/
 //var expressWs = require('express-ws')(app,server);
 const WebSocket = require('ws');
-const s = new WebSocket.Server({ server ,clientTracking: false});
-var connections = {};
+const s = new WebSocket.Server({ server });
+
 //when browser sends get request, send html file to browser
 // viewed at http://localhost:30000
 app.get('/', function (req, res) {
@@ -50,10 +50,10 @@ function getDateTime() {
     var hour = date.getHours();
     hour = (hour < 10 ? "0" : "") + hour;
 
-    var min  = date.getMinutes();
+    var min = date.getMinutes();
     min = (min < 10 ? "0" : "") + min;
 
-    var sec  = date.getSeconds();
+    var sec = date.getSeconds();
     sec = (sec < 10 ? "0" : "") + sec;
 
     var year = date.getFullYear();
@@ -61,51 +61,49 @@ function getDateTime() {
     var month = date.getMonth() + 1;
     month = (month < 10 ? "0" : "") + month;
 
-    var day  = date.getDate();
+    var day = date.getDate();
     day = (day < 10 ? "0" : "") + day;
 
     return year + ":" + month + ":" + day + ":" + hour + ":" + min + ":" + sec;
 
 }
-var user = {};
 //app.ws('/echo', function(ws, req) {
 s.on('connection', function (ws, req) {
     ws.id = s.getUniqueID();
-    // ws.id = generateAnUniqueIdFunction();
-    // connections[ws.id] = ws;
-    // console.log('connections: ', connections);
+    user[ws.id].push({
+        'user_id': client.id,
+        'status': 'ready',
+        'time': getDateTime()
+    });
 
-    // user[ws.id].push({
-    //     'status': 'ready',
-    //     'time' :  getDateTime()
-    // });
 
 
     ws.on('message', function (message) {
         if (message != 'ping') {
-            console.log('message',message);
+            console.log('message', message);
             var obj = JSON.stringify({ 'name': ws.id, 'message': message });
             console.log(ws.id + " : " + obj);
             if (message == 'list-all') {
-                ws.clients.forEach(function (client) { //broadcast incoming message to all clients (s.clients)
+                s.clients.forEach(function (client) { //broadcast incoming message to all clients (s.clients)
                     if (client.readyState) { //except to the same client (ws) that sent this message
                         client.send(JSON.stringify(user));
                     }
-                });        
-            }else{
-                ws.clients.forEach(function (client) { //broadcast incoming message to all clients (s.clients)
+                });
+            } else {
+                s.clients.forEach(function (client) { //broadcast incoming message to all clients (s.clients)
                     if (client != ws && client.readyState) { //except to the same client (ws) that sent this message
                         client.send(obj);
                     }
                 });
             }
-  
+
         }
 
 
     });
     ws.on('close', function () {
-        delete user[ws.id];
+
+        delete user[ws.id]
         console.log('user',user);
     });
     //ws.send("new client connected");
@@ -113,7 +111,10 @@ s.on('connection', function (ws, req) {
 
 
     setInterval(() => {
-        s.broadcast('ping'); 
+        s.clients.forEach((client) => {
+            var obj = 'ping';
+            client.send(obj);
+        });
     }, 3000);
 });
 server.listen(3000, function () {
